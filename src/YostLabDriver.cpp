@@ -167,10 +167,6 @@ void YostLabDriver::run()
         line_num_ = 0;
         imu_msg_.header.stamp    = ros::Time::now();
         imu_msg_.header.frame_id = "imu_link";
-        // imu_msg_.orientation.x = parsed_val_[0];
-        // imu_msg_.orientation.y = parsed_val_[1];
-        // imu_msg_.orientation.z = parsed_val_[2];
-        // imu_msg_.orientation.w = parsed_val_[3];
         imu_msg_.orientation.x = parsed_val_[0];
         imu_msg_.orientation.y = parsed_val_[1];
         imu_msg_.orientation.z = parsed_val_[2];
@@ -192,10 +188,10 @@ void YostLabDriver::run()
         m.getRPY(roll, pitch, yaw);
         double grad2deg = 180/M_PI;
 
-        imu_msg_.orientation.x = roll * grad2deg;
-        imu_msg_.orientation.y = pitch * grad2deg;
-        imu_msg_.orientation.z = yaw * grad2deg;
-        imu_msg_.orientation.w = 1;
+        // imu_msg_.orientation.x = roll * grad2deg;
+        // imu_msg_.orientation.y = pitch * grad2deg;
+        // imu_msg_.orientation.z = yaw * grad2deg;
+        // imu_msg_.orientation.w = 1;
 
         this->imu_pub_.publish(imu_msg_);
 
