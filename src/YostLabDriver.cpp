@@ -140,7 +140,7 @@ void YostLabDriver::run()
   this->SerialWriteString(SET_STREAMING_SLOTS_QUATERNION_CORRECTED_GYRO_ACCELERATION_LINEAR_IN_GLOBAL);
   this->SerialWriteString(TARE_WITH_CURRENT_ORIENTATION);
   this->SerialWriteString(TARE_WITH_CURRENT_QUATERNION);
-  this->SerialWriteString(SET_STREAMING_TIMING_100_MS);
+  this->SerialWriteString(SET_STREAMING_TIMING_4_MS);
   this->SerialWriteString(START_STREAMING);
   ros::Rate loop_rate(20);
   int line_num_ = 0;
@@ -167,6 +167,10 @@ void YostLabDriver::run()
         line_num_ = 0;
         imu_msg_.header.stamp    = ros::Time::now();
         imu_msg_.header.frame_id = "imu_link";
+        // imu_msg_.orientation.x = parsed_val_[0];
+        // imu_msg_.orientation.y = parsed_val_[1];
+        // imu_msg_.orientation.z = parsed_val_[2];
+        // imu_msg_.orientation.w = parsed_val_[3];
         imu_msg_.orientation.x = parsed_val_[0];
         imu_msg_.orientation.y = parsed_val_[1];
         imu_msg_.orientation.z = parsed_val_[2];
@@ -178,7 +182,7 @@ void YostLabDriver::run()
         imu_msg_.linear_acceleration.y = parsed_val_[8];
         imu_msg_.linear_acceleration.z = parsed_val_[9];
         parsed_val_.clear();
-        this->imu_pub_.publish(imu_msg_);
+        // this->imu_pub_.publish(imu_msg_);
         tf::Quaternion q( imu_msg_.orientation.x,
                           imu_msg_.orientation.y,
                           imu_msg_.orientation.z,
@@ -186,7 +190,17 @@ void YostLabDriver::run()
         tf::Matrix3x3 m(q);
         double roll, pitch, yaw;
         m.getRPY(roll, pitch, yaw);
-        ROS_INFO_THROTTLE(1.0, "[ YostLabImuDriver ] roll: %f, pitch: %f, yaw: %f ", roll,pitch,yaw);
+        double grad2deg = 180/M_PI;
+
+        imu_msg_.orientation.x = roll * grad2deg;
+        imu_msg_.orientation.y = pitch * grad2deg;
+        imu_msg_.orientation.z = yaw * grad2deg;
+        imu_msg_.orientation.w = 1;
+
+        this->imu_pub_.publish(imu_msg_);
+
+        // ROS_INFO_THROTTLE(1.0, " roll: %f, pitch: %f, yaw: %f ", roll*grad2deg,pitch*grad2deg,yaw*grad2deg);
+
       }
 
     }

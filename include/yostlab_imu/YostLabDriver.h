@@ -97,6 +97,7 @@ private:
   static constexpr auto SET_STREAMING_SLOTS_QUATERNION_CORRECTED_GYRO_ACCELERATION_LINEAR_IN_GLOBAL
   = ":80,0,38,41,255,255,255,255,255\n";
   static constexpr auto GET_STREAMING_SLOTS                   = ":81\n";
+  static constexpr auto SET_STREAMING_TIMING_4_MS             = ":82,4000,0,0\n";
   static constexpr auto SET_STREAMING_TIMING_100_MS           = ":82,100000,0,0\n";
   static constexpr auto SET_STREAMING_TIMING_1000_MS          = ":82,1000000,0,0\n";
   static constexpr auto SET_STREAMING_TIMING_5000_MS          = ":82,5000000,0,0\n";
