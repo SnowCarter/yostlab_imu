@@ -142,7 +142,7 @@ void YostLabDriver::run()
   this->SerialWriteString(TARE_WITH_CURRENT_QUATERNION);
   this->SerialWriteString(SET_STREAMING_TIMING_4_MS);
   this->SerialWriteString(START_STREAMING);
-  ros::Rate loop_rate(20);
+  ros::Rate loop_rate(250);
   int line_num_ = 0;
   sensor_msgs::Imu imu_msg_;
   std::vector<double> parsed_val_;
